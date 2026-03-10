@@ -118,8 +118,8 @@ Read in this order:
 2. `IDENTITY.md` — your name and role
 3. `USER.md` — your user
 4. `VOICE.md` — your communication style
-5. `canonical/profile.md` — durable user facts
-6. `canonical/stable-memory.md` — durable rules and decisions
+5. `canonical/profile.md` (if it exists — generated after first compile) — durable user facts
+6. `canonical/stable-memory.md` (if it exists — generated after first compile) — durable rules and decisions
 
 ### Step 2 — Choose your source id
 
@@ -174,7 +174,7 @@ Write the loading instruction into whichever config file your runtime reads auto
 ## Shared Memory
 - Repo: /path/to/your/repo
 - Source id: YOUR_SOURCE_ID
-- Session start: git pull, then read canonical/stable-memory.md and canonical/profile.md
+- Session start: git pull, then read SOUL.md, IDENTITY.md, USER.md, VOICE.md, and canonical/profile.md + canonical/stable-memory.md if they exist
 - Write events: python scripts/add_event.py --source YOUR_SOURCE_ID ...
 - Urgent share: bash scripts/quick_share.sh --source YOUR_SOURCE_ID ...
 ```

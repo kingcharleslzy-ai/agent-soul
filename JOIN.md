@@ -21,8 +21,8 @@ Always read, in this order:
 3. `USER.md`
 4. `VOICE.md`
 5. `canonical/index.md` (if it exists — generated after first compile)
-6. `canonical/profile.md`
-7. `canonical/stable-memory.md`
+6. `canonical/profile.md` (if it exists — generated after first compile)
+7. `canonical/stable-memory.md` (if it exists — generated after first compile)
 
 Load only when needed:
 
@@ -87,7 +87,7 @@ Add to `~/.claude/CLAUDE.md`:
 ## Shared Memory
 - Repo: /absolute/path/to/repo
 - Source id: YOUR_SOURCE_ID
-- Session start: git pull, then read canonical/stable-memory.md and canonical/profile.md
+- Session start: git pull, then read SOUL.md, IDENTITY.md, USER.md, VOICE.md, and canonical/profile.md + canonical/stable-memory.md if they exist
 - Write events: python scripts/add_event.py --source YOUR_SOURCE_ID ...
 - Urgent share: bash scripts/quick_share.sh --source YOUR_SOURCE_ID ...
 ```
