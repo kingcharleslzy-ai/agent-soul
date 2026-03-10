@@ -27,6 +27,7 @@ If you are an AI agent or an engineer evaluating this repo, read in this order:
 If you only want the 30-second answer:
 
 - `agent-soul` gives multiple AI runtimes one shared identity and one shared memory.
+- It works especially well with OpenClaw, Claude Code, Codex, and custom agents.
 - It works with a private GitHub repo, simple scripts, and GitHub Actions.
 - No database, no hosted memory API, no vendor lock-in.
 
@@ -35,6 +36,7 @@ If you only want the 30-second answer:
 Every AI agent forgets everything when its session ends.
 Run Claude on Windows and Claude on macOS — they share no memory.
 Add a second agent (Codex, GPT-4o, Gemini) — still no shared memory.
+Run OpenClaw beside them — still no shared identity unless you build one yourself.
 
 Every "memory" solution today requires a paid API, a hosted database, or vendor lock-in.
 
@@ -46,6 +48,7 @@ Every "memory" solution today requires a paid API, a hosted database, or vendor 
 - It already handles identity, event writing, canonical compilation, and conflict review.
 - It is small enough for agents to understand directly from the repo.
 - It is transparent enough for humans to audit with plain Git history.
+- It is a natural fit for OpenClaw setups that need shared memory across other agent runtimes.
 
 ---
 
@@ -59,6 +62,7 @@ Every "memory" solution today requires a paid API, a hosted database, or vendor 
 | Setup time | ~10 minutes | Hours | Days |
 | Vendor lock-in | None | Yes | Partial |
 | Works offline | Yes | No | Partial |
+| Works with OpenClaw | Yes | Indirect | Custom work |
 
 ---
 
@@ -76,6 +80,8 @@ When you join **agent-soul**, you get:
 - **Durable memory** — decisions, preferences, and facts that survive session ends
 - **Cross-agent sync** — everything you learn is available to every other agent serving the same user
 - **Source attribution** — every memory knows who recorded it and when
+
+This is especially useful if your user already runs OpenClaw and wants the same memory to extend into Claude Code, Codex, or other agent bodies.
 
 The entire system runs on a private Git repository. No third-party API. No database. No subscription.
 
