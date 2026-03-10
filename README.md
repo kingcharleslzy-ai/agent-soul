@@ -1,6 +1,6 @@
 # agent-soul
 
-**One soul. Many agents. Shared memory.**
+**Shared memory & identity for your AI agents – Git-native, self-hosted, no vendor lock in.**
 
 A Git-native framework that gives AI agents a continuous identity and persistent
 memory across runtimes, devices, and sessions — without depending on any
@@ -13,7 +13,6 @@ proprietary memory API.
 [![Agent Skill](https://img.shields.io/badge/agent-friendly-SKILL.md-black)](SKILL.md)
 
 ---
-
 ![agent-soul social preview](assets/social-preview.png)
 
 ## Start Here
@@ -119,7 +118,7 @@ python scripts/compile_memory_hub.py --apply && git add sources canonical && git
 ## How It Works
 
 ```
-┌─────────────────────────────────────────────────────────┐
+┌────────────────────────────────────────────────────────┐
 │                    agent-soul repo                      │
 │                                                         │
 │  SOUL.md / IDENTITY.md / USER.md / VOICE.md            │
@@ -133,7 +132,7 @@ python scripts/compile_memory_hub.py --apply && git add sources canonical && git
 │    stable-memory.md                ← durable facts      │
 │    projects/*.md                   ← per-project memory │
 │    agents/*.md                     ← per-agent view     │
-└─────────────────────────────────────────────────────────┘
+└────────────────────────────────────────────────────────┘
         ↑ pull                              ↓ push
    any agent reads                    any agent writes
 ```
@@ -382,7 +381,7 @@ sources/<id>/*.ndjson (event streams)
 ### The compile loop
 
 ```
-sources/* ──► compile_memory_hub.py ──► canonical/*
+sources/* ──▶ compile_memory_hub.py ──▶ canonical/*
                       ▲
               GitHub Actions runs this
               automatically on every push
