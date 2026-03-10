@@ -322,6 +322,8 @@ def cleanup_legacy_runtime_files():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true", help="write canonical files")
+    ap.add_argument("--fuzzy-days", type=int, default=None,
+                    help="exclude fuzzy events older than N days from canonical output (sources are never modified)")
     args = ap.parse_args()
 
     got, lock = acquire_lock()
@@ -356,6 +358,27 @@ def main():
             raise SystemExit(1)
         events, superseded_count = filter_superseded(events)
         uniq = dedup(events)
+
+        # Fuzzy TTL: exclude old fuzzy events from canonical output only.
+        # sources/* are never modified — append-only is preserved.
+        fuzzy_pruned = 0
+        if args.fuzzy_days is not None:
+            cutoff = now_local() - datetime.timedelta(days=args.fuzzy_days)
+            before = len(uniq)
+            def _keep(e):
+                if e.get("scope") != "fuzzy":
+                    return True
+                ts_str = e.get("ts", "")
+                try:
+                    ts = datetime.datetime.fromisoformat(ts_str)
+                    if ts.tzinfo is None:
+                        ts = ts.replace(tzinfo=now_local().tzinfo)
+                    return ts >= cutoff
+                except ValueError:
+                    return True
+            uniq = [e for e in uniq if _keep(e)]
+            fuzzy_pruned = before - len(uniq)
+
         conflicts = detect_conflicts(uniq)
         rendered = render(uniq, conflicts)
 
@@ -370,6 +393,7 @@ def main():
             f"- source files: {len(files)}",
             f"- raw events: {raw_count}",
             f"- superseded events removed: {superseded_count}",
+            f"- fuzzy events excluded (TTL): {fuzzy_pruned}",
             f"- unique events: {len(uniq)}",
             f"- potential conflicts: {len(conflicts)}",
             f"- mode: {'apply' if args.apply else 'dry-run'}",

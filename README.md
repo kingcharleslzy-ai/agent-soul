@@ -239,15 +239,16 @@ python scripts/add_event.py \
 | Script | Purpose |
 |--------|---------|
 | `scripts/add_event.py` | Append one memory event |
-| `scripts/quick_share.sh` | Add + compile + push immediately |
+| `scripts/quick_share.sh` | Add + compile + push (skip CI wait) |
 | `scripts/search_events.py` | Search events by scope, kind, keyword |
-| `scripts/prune_fuzzy.py` | Remove old fuzzy events (TTL cleanup) |
-| `scripts/compile_memory_hub.py` | Rebuild canonical from all sources |
+| `scripts/compile_memory_hub.py` | Rebuild canonical (`--fuzzy-days N` for TTL) |
 | `scripts/validate_sources.py` | Validate all NDJSON source files |
 
-### Quick-share (urgent propagation)
+### Quick-share (push without waiting for CI)
 
-When a fact must reach other agents immediately instead of waiting for the next CI run:
+By default, events reach other agents when CI compiles and they next `git pull`.
+Use `quick_share.sh` to compile and push immediately — other agents will see the
+change on their next pull, skipping the CI delay.
 
 ```bash
 bash scripts/quick_share.sh \
@@ -265,11 +266,13 @@ python scripts/search_events.py --query "language preference"
 python scripts/search_events.py --source YOUR_SOURCE_ID --limit 20
 ```
 
-### Fuzzy TTL cleanup
+### Fuzzy TTL (compiler-side, sources untouched)
+
+`sources/*` is append-only and never modified. To keep old fuzzy events out of
+canonical output without touching source files, pass `--fuzzy-days` to the compiler:
 
 ```bash
-python scripts/prune_fuzzy.py --days 30          # dry-run
-python scripts/prune_fuzzy.py --days 30 --apply  # apply
+python scripts/compile_memory_hub.py --apply --fuzzy-days 30
 ```
 
 ---
@@ -336,7 +339,6 @@ agent-soul/
 │   ├── event_utils.py         # Shared utilities
 │   ├── validate_sources.py    # Validate NDJSON sources
 │   ├── search_events.py       # Search events
-│   ├── prune_fuzzy.py         # TTL cleanup
 │   ├── quick_share.sh         # Fast add+compile+push
 │   └── compile_and_sync.sh    # Full compile cycle
 ├── .github/workflows/
