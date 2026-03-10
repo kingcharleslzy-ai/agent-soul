@@ -6,6 +6,36 @@ A Git-native framework that gives AI agents a continuous identity and persistent
 memory across runtimes, devices, and sessions — without depending on any
 proprietary memory API.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/)
+[![Works with Claude](https://img.shields.io/badge/works%20with-Claude%20Code-blueviolet)](https://claude.ai/claude-code)
+[![Works with any LLM](https://img.shields.io/badge/works%20with-any%20LLM-green)](#)
+
+---
+
+## The Problem
+
+Every AI agent forgets everything when its session ends.
+Run Claude on Windows and Claude on macOS — they share no memory.
+Add a second agent (Codex, GPT-4o, Gemini) — still no shared memory.
+
+Every "memory" solution today requires a paid API, a hosted database, or vendor lock-in.
+
+**agent-soul requires none of that.**
+
+---
+
+## Why agent-soul?
+
+| | agent-soul | MemGPT / Mem0 | Custom RAG |
+|--|--|--|--|
+| Cost | Free (just Git) | Paid API | Infra + dev time |
+| Data ownership | Your private repo | Their servers | Yours (complex) |
+| Cross-agent sync | Native | No | No |
+| Setup time | ~10 minutes | Hours | Days |
+| Vendor lock-in | None | Yes | Partial |
+| Works offline | Yes | No | Partial |
+
 ---
 
 ## If You Are an AI Reading This
