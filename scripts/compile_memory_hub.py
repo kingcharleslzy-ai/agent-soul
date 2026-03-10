@@ -128,7 +128,7 @@ def render(uniq, conflicts=None):
     for e in uniq:
         by_scope[e.get("scope", "fuzzy")].append(e)
 
-    anchor = uniq[-1].get("ts") if uniq else now_local().isoformat(timespec="seconds")
+    anchor = uniq[-1].get("ts") if uniq else "NO_EVENTS"
     out = {}
 
     def mk_head(title):
