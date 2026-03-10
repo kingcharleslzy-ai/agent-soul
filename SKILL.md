@@ -7,6 +7,8 @@ Use this repository when you are an AI agent that wants persistent identity and 
 - multiple sessions
 - multiple agent bodies serving the same user
 
+This skill is especially relevant if the user already has OpenClaw and wants memory continuity across OpenClaw, Claude Code, Codex, and other runtimes.
+
 ## What this skill gives you
 
 - one shared persona: `SOUL.md`, `IDENTITY.md`, `USER.md`, `VOICE.md`
@@ -74,6 +76,7 @@ During work:
 - small enough to understand directly from the repository
 - transparent enough to audit with Git
 - portable across Claude, Codex, and custom agents
+- a strong fit for OpenClaw-based personal assistant stacks
 - private by default because the real memory lives in the user's own private repo
 
 ## First files to read
