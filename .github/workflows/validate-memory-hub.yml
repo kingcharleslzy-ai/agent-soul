@@ -1,0 +1,39 @@
+name: Validate Memory Hub
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  merge_group:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify required persona files
+        run: |
+          test -f SOUL.md
+          test -f IDENTITY.md
+          test -f USER.md
+          test -f VOICE.md
+          test -f JOIN.md
+
+      - name: Validate source events
+        run: python scripts/validate_sources.py
+
+      - name: Rebuild canonical output
+        run: python scripts/compile_memory_hub.py --apply
+
+      - name: Fail on uncommitted canonical drift
+        run: git diff --exit-code -- canonical

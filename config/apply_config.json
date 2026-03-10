@@ -1,0 +1,5 @@
+{
+  "_comment": "Configuration for apply_canonical_to_participants.py. Edit here — never hardcode in scripts.",
+  "user_card_skip_snippets": [],
+  "user_card_profile_skip_prefixes": []
+}

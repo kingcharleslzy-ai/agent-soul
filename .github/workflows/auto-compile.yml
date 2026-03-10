@@ -1,0 +1,74 @@
+name: Auto-Compile Canonical
+
+# Trigger only when source events change on main.
+# Ignores canonical/** changes to avoid infinite loops.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "sources/**"
+
+# Only one compile at a time; newer pushes cancel stale runs.
+concurrency:
+  group: auto-compile
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          # GITHUB_TOKEN pushes do NOT trigger downstream workflows
+          # (GitHub's anti-recursion policy).  This is intentional here
+          # since auto-compile already runs the compiler itself, and
+          # [skip ci] in the commit message adds a second safety layer.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile canonical from sources
+        run: python scripts/compile_memory_hub.py --apply
+
+      - name: Check for changes
+        id: diff
+        run: |
+          git add canonical
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name  "memory-hub-bot"
+          git config user.email "memory-hub-bot@users.noreply.github.com"
+          git commit -m "chore(canonical): auto-compile from sources [skip ci]"
+          # Retry push up to 3 times in case of concurrent pushes
+          for attempt in 1 2 3; do
+            if git push origin main; then
+              echo "Push succeeded on attempt $attempt"
+              exit 0
+            fi
+            echo "Push failed on attempt $attempt, rebasing..."
+            git fetch origin main
+            git rebase origin/main
+            # Rebase may have brought new sources — recompile to keep canonical fresh
+            python scripts/compile_memory_hub.py --apply
+            git add canonical
+            if ! git diff --cached --quiet; then
+              git commit -m "chore(canonical): recompile after rebase [skip ci]"
+            fi
+          done
+          echo "Push failed after 3 attempts"
+          exit 1

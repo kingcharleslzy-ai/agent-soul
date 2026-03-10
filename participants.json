@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "_comment": "This file is for local automation only. External agents do NOT need to be listed here to join. See JOIN.md.",
+  "participants": [
+    {
+      "id": "example-agent",
+      "displayName": "Example Agent",
+      "runtime": "claude-code",
+      "enabled": false,
+      "_comment": "Replace or remove this entry. Add entries only for agents that run locally on this machine and need automated workspace sync.",
+      "modes": ["read", "write"]
+    }
+  ]
+}
