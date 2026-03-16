@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import datetime
 import json
 import os
 import re
@@ -38,6 +39,12 @@ def main():
 
     if not SOURCE_RE.match(args.source):
         raise SystemExit("source must match ^[a-z0-9][a-z0-9-]{1,63}$")
+
+    if args.valid_until:
+        try:
+            datetime.date.fromisoformat(args.valid_until)
+        except ValueError:
+            raise SystemExit(f"valid-until must be YYYY-MM-DD, got: {args.valid_until}")
 
     summary = args.summary.strip()
     if len(summary) < SUMMARY_MIN_LEN:
