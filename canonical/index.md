@@ -3,28 +3,28 @@
 > generated_by: memory-hub-compiler
 > event_anchor_ts: NO_EVENTS
 
-## Default Load Path
+## Loading Protocol
+
+### L0 -- Soul (always, every turn)
 
 1. `SOUL.md`
 2. `IDENTITY.md`
 3. `USER.md`
 4. `VOICE.md`
+
+### L1 -- Memory (always, at session start)
+
 5. `canonical/index.md`
 6. `canonical/profile.md`
 7. `canonical/stable-memory.md`
-8. relevant file under `canonical/projects/`
-9. `canonical/fuzzy-memory.md` only when recent context matters
-10. `canonical/agents/<source>.md` only when provenance matters
 
-## Layer Rules
+### L2 -- Context (on-demand only)
 
-- repo-root persona files: shared soul, identity, user relationship, voice -- the core identity layer
-- `profile`: user facts and long-term collaboration preferences (not the assistant identity)
-- `stable-memory`: reusable rules, decisions, durable facts
-- `projects/*`: on-demand task/project memory
-- `fuzzy-memory`: recent context layer -- do not load in full by default
-- `agents/*`: source attribution layer -- records who wrote what, not separate identities
-- `mirrors/*`: audit/recovery layer -- not default startup context
+8. `canonical/projects/<name>.md` -- when working on that project
+9. `canonical/fuzzy-memory.md` -- when recent context matters
+10. `canonical/agents/<source>.md` -- when provenance matters
+
+Default context: L0 + L1 ~= 250 lines (~4K tokens). Never load everything.
 
 ## Active Sources
 

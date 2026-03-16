@@ -66,6 +66,20 @@ def filter_superseded(events):
     return kept, len(events) - len(kept)
 
 
+def filter_expired(events):
+    """Remove events whose valid_until date has passed."""
+    today = now_local().strftime("%Y-%m-%d")
+    kept = []
+    expired_count = 0
+    for e in events:
+        valid_until = e.get("valid_until")
+        if valid_until and valid_until < today:
+            expired_count += 1
+        else:
+            kept.append(e)
+    return kept, expired_count
+
+
 def dedup(events):
     seen = set()
     uniq = []
@@ -148,28 +162,28 @@ def render(uniq, conflicts=None):
 
     idx = mk_head("canonical/index.md")
     idx += [
-        "## Default Load Path",
+        "## Loading Protocol",
+        "",
+        "### L0 -- Soul (always, every turn)",
         "",
         "1. `SOUL.md`",
         "2. `IDENTITY.md`",
         "3. `USER.md`",
         "4. `VOICE.md`",
+        "",
+        "### L1 -- Memory (always, at session start)",
+        "",
         "5. `canonical/index.md`",
         "6. `canonical/profile.md`",
         "7. `canonical/stable-memory.md`",
-        "8. relevant file under `canonical/projects/`",
-        "9. `canonical/fuzzy-memory.md` only when recent context matters",
-        "10. `canonical/agents/<source>.md` only when provenance matters",
         "",
-        "## Layer Rules",
+        "### L2 -- Context (on-demand only)",
         "",
-        "- repo-root persona files: shared soul, identity, user relationship, voice -- the core identity layer",
-        "- `profile`: user facts and long-term collaboration preferences (not the assistant identity)",
-        "- `stable-memory`: reusable rules, decisions, durable facts",
-        "- `projects/*`: on-demand task/project memory",
-        "- `fuzzy-memory`: recent context layer -- do not load in full by default",
-        "- `agents/*`: source attribution layer -- records who wrote what, not separate identities",
-        "- `mirrors/*`: audit/recovery layer -- not default startup context",
+        "8. `canonical/projects/<name>.md` -- when working on that project",
+        "9. `canonical/fuzzy-memory.md` -- when recent context matters",
+        "10. `canonical/agents/<source>.md` -- when provenance matters",
+        "",
+        "Default context: L0 + L1 ~= 250 lines (~4K tokens). Never load everything.",
         "",
         "## Active Sources",
         "",
@@ -357,6 +371,7 @@ def main():
             print("\n".join(report))
             raise SystemExit(1)
         events, superseded_count = filter_superseded(events)
+        events, expired_count = filter_expired(events)
         uniq = dedup(events)
 
         # Fuzzy TTL: exclude old fuzzy events from canonical output only.
@@ -393,6 +408,7 @@ def main():
             f"- source files: {len(files)}",
             f"- raw events: {raw_count}",
             f"- superseded events removed: {superseded_count}",
+            f"- expired events removed: {expired_count}",
             f"- fuzzy events excluded (TTL): {fuzzy_pruned}",
             f"- unique events: {len(uniq)}",
             f"- potential conflicts: {len(conflicts)}",

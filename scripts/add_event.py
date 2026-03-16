@@ -26,6 +26,7 @@ def main():
     ap.add_argument("--summary", required=True)
     ap.add_argument("--project", default=None)
     ap.add_argument("--importance", type=float, default=0.5)
+    ap.add_argument("--valid-until", default=None, help="ISO date (YYYY-MM-DD) after which this event expires")
     ap.add_argument("--supersedes", nargs="*", default=None, help="event_ids this event replaces")
     args = ap.parse_args()
 
@@ -55,6 +56,8 @@ def main():
         "importance": round(args.importance, 3),
         "fingerprint": make_fingerprint(args.kind, args.scope, args.summary, args.project),
     }
+    if args.valid_until:
+        event["valid_until"] = args.valid_until
     if args.supersedes:
         event["supersedes"] = args.supersedes
 

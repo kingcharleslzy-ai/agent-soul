@@ -1,0 +1,18 @@
+{
+  "name": "agent-soul",
+  "version": "2.0.0",
+  "description": "One soul, many bodies — shared identity and memory for multi-agent collaboration",
+  "soul": "SOUL.md",
+  "identity": "IDENTITY.md",
+  "user": "USER.md",
+  "voice": "VOICE.md",
+  "schema": "SCHEMA.md",
+  "canonical": "canonical/",
+  "sources": "sources/",
+  "loading": {
+    "L0_soul": ["SOUL.md", "IDENTITY.md", "USER.md", "VOICE.md"],
+    "L1_memory": ["canonical/index.md", "canonical/profile.md", "canonical/stable-memory.md"],
+    "L2_context": ["canonical/projects/*.md", "canonical/fuzzy-memory.md", "canonical/agents/*.md"]
+  },
+  "participants": "participants.json"
+}

@@ -1,13 +1,18 @@
 # Roadmap
 
-This document outlines the future direction for **agent-soul**. It mirrors the roadmap issue and provides a high-level overview of planned features and improvements.
+## Completed (v2.0)
 
-## Planned tasks
+- `soul.json` manifest with loading protocol
+- Three-level loading protocol (L0/L1/L2)
+- Temporal expiry (`valid_until`)
+- Comprehensive comparison with alternatives
 
-- **Integration with other agents** – Provide plugins for additional AI runtimes beyond Claude Code, Codex and OpenClaw.
-- **Template repository & one‑click setup** – Offer a starter template to simplify deployment.
-- **Web UI for event history** – Build a simple dashboard to browse and search the shared memory.
-- **Additional languages** – Support Python clients, Node.js and other ecosystems.
-- **Role‑based access & encryption** – Add options for private/public events and encrypted storage.
+## Planned
 
-We welcome contributions and suggestions; please see the Roadmap issue for discussion.
+- **Semantic search** — optional embedding-based event search
+- **Template repo & one-click setup** — GitHub template with pre-filled Actions
+- **Web UI for event history** — simple dashboard to browse shared memory
+- **Plugin system** — runtime-specific adapters (VS Code, JetBrains, etc.)
+- **Role-based access & encryption** — private/public events and encrypted storage
+
+We welcome contributions and suggestions.
