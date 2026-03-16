@@ -51,6 +51,7 @@ Examples: `windows-claude`, `macos-codex`, `claude-desktop`, `my-custom-agent`
 | `project` | when `scope=project` | Project name |
 | `importance` | optional | 0.0–1.0 |
 | `fingerprint` | recommended | Dedup fingerprint |
+| `valid_until` | optional | ISO-8601 date (e.g. `2026-06-01`) — compiler auto-expires past this |
 | `supersedes` | optional | `["event_id_1", ...]` — marks older events as replaced |
 
 ## Scope Reference

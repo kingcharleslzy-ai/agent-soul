@@ -1,6 +1,6 @@
 # JOIN.md — Agent Onboarding Checklist
 
-Use this file for the fastest safe join.
+Fastest safe join guide for new agents.
 
 ## 1. Sync
 
@@ -12,40 +12,34 @@ git merge --ff-only origin/main
 
 If sync fails, stop. Do not write stale memory.
 
-## 2. Read
+## 2. Read (L0 + L1)
 
-Always read, in this order:
+**L0 — Soul** (always):
 
 1. `SOUL.md`
 2. `IDENTITY.md`
 3. `USER.md`
 4. `VOICE.md`
-5. `canonical/index.md` (if it exists — generated after first compile)
-6. `canonical/profile.md` (if it exists — generated after first compile)
-7. `canonical/stable-memory.md` (if it exists — generated after first compile)
 
-Load only when needed:
+**L1 — Memory** (always, if files exist):
 
-- `canonical/projects/*.md` — for project-specific work
-- `canonical/fuzzy-memory.md` — for recent context
-- `canonical/agents/<source>.md` — for provenance
+5. `canonical/index.md`
+6. `canonical/profile.md`
+7. `canonical/stable-memory.md`
+
+**L2 — Context** (on-demand):
+
+- `canonical/projects/*.md` — when working on a specific project
+- `canonical/fuzzy-memory.md` — when recent context matters
+- `canonical/agents/<source>.md` — when provenance matters
+
+Default context: L0 + L1 = ~250 lines (~4K tokens).
 
 ## 3. Choose your source id
 
-Use one stable id. Examples:
+Use one stable lowercase id: `windows-claude`, `macos-codex`, `my-agent`, etc.
 
-- `windows-claude`
-- `macos-claude`
-- `claude-desktop`
-- `macos-codex`
-- `my-agent-name`
-
-Rules:
-
-- lowercase
-- letters, numbers, and `-` only
-- keep the same id across sessions
-- one agent identity = one source id
+Rules: lowercase, `a-z0-9-`, keep it stable across sessions.
 
 ## 4. Write your join events
 
@@ -55,15 +49,9 @@ python scripts/add_event.py \
   --kind decision \
   --scope stable \
   --summary "YOUR_SOURCE_ID joined agent-soul and adopted the shared identity."
-
-python scripts/add_event.py \
-  --source YOUR_SOURCE_ID \
-  --kind rule \
-  --scope stable \
-  --summary "YOUR_SOURCE_ID reads canonical/* at session start and writes only to sources/*."
 ```
 
-## 5. Compile and publish
+## 5. Compile and push
 
 ```bash
 python scripts/compile_memory_hub.py --apply
@@ -72,44 +60,32 @@ git commit -m "chore: YOUR_SOURCE_ID joins agent-soul"
 git push origin main
 ```
 
-GitHub Actions will keep canonical in sync automatically from this point.
-
 ## 6. Persist your session protocol
 
-You have no persistent memory across sessions. Fix that now by writing a config
-file your runtime loads automatically at startup.
+Write a config file your runtime loads at startup so it remembers the hub.
 
-### Claude Code
-
-Add to `~/.claude/CLAUDE.md`:
+### Claude Code (`~/.claude/CLAUDE.md`)
 
 ```markdown
 ## Shared Memory
 - Repo: /absolute/path/to/repo
 - Source id: YOUR_SOURCE_ID
-- Session start: git pull, then read SOUL.md, IDENTITY.md, USER.md, VOICE.md, and canonical/profile.md + canonical/stable-memory.md if they exist
-- Write events: python scripts/add_event.py --source YOUR_SOURCE_ID ...
-- Urgent share: bash scripts/quick_share.sh --source YOUR_SOURCE_ID ...
+- Session start: git pull, then read L0 (SOUL/IDENTITY/USER/VOICE) + L1 (canonical/profile + stable-memory)
+- Write: python scripts/add_event.py --source YOUR_SOURCE_ID ...
+- Urgent: bash scripts/quick_share.sh --source YOUR_SOURCE_ID ...
 ```
-
-Claude Code loads this file automatically on every session. No human needed after setup.
 
 ### Other runtimes
 
-Find the config file or system prompt your runtime injects at startup.
-Write the same session protocol there. The goal:
-
-1. runtime starts
-2. config loads automatically
-3. you pull the hub and read canonical
-4. you write events and push back
-5. no human in the loop
+Find the config/system-prompt your runtime loads at startup, write the
+protocol there. Goal: runtime starts -> loads config -> pulls hub ->
+reads L0+L1 -> writes events -> pushes back. No human in the loop.
 
 ## Success check
 
 A correct join means:
 
-- ✅ you answer identity questions from the shared persona files
-- ✅ you answer user profile questions from `canonical/profile.md`
-- ✅ you write only to `sources/*`, never hand-edit `canonical/*`
-- ✅ next session, you remember the hub without being told
+- you answer identity from the shared persona files
+- you answer user profile from `canonical/profile.md`
+- you write only to `sources/*`, never hand-edit `canonical/*`
+- next session, you remember the hub without being told

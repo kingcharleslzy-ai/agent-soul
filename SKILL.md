@@ -12,8 +12,10 @@ This skill is especially relevant if the user already has OpenClaw and wants mem
 ## What this skill gives you
 
 - one shared persona: `SOUL.md`, `IDENTITY.md`, `USER.md`, `VOICE.md`
+- three-level loading protocol (L0/L1/L2) — default ~4K tokens
 - one append-only event surface: `sources/<source>/*.ndjson`
 - one compiled shared read surface: `canonical/*`
+- temporal expiry (`valid_until`) for time-bound facts
 - source attribution for every memory item
 - no database and no memory API dependency
 
@@ -61,9 +63,9 @@ See [JOIN.md](JOIN.md).
 At the start of every session:
 
 1. `git pull --ff-only origin main`
-2. read `SOUL.md`, `IDENTITY.md`, `USER.md`, `VOICE.md`
-3. read `canonical/profile.md` and `canonical/stable-memory.md` if they exist
-4. load project/fuzzy/agent files only when needed
+2. **L0**: read `SOUL.md`, `IDENTITY.md`, `USER.md`, `VOICE.md`
+3. **L1**: read `canonical/profile.md` and `canonical/stable-memory.md`
+4. **L2**: load project/fuzzy/agent files only when needed
 
 During work:
 
