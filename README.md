@@ -67,10 +67,10 @@ VOICE.md               /
 
 canonical/index.md     \
 canonical/profile.md   |  L1: Memory Layer (~150 lines, always load)
-canonical/stable.md    /  "Durable facts, decisions, rules, preferences"
+canonical/stable-memory.md    /  "Durable facts, decisions, rules, preferences"
 
 canonical/projects/*   \
-canonical/fuzzy.md     |  L2: Context Layer (on-demand, load only when relevant)
+canonical/fuzzy-memory.md     |  L2: Context Layer (on-demand, load only when relevant)
 canonical/agents/*     /  "Project state, recent context, source provenance"
 
 sources/               <- append-only event streams (write surface)
