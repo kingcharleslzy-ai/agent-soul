@@ -247,6 +247,8 @@ python scripts/add_event.py --source YOUR_ID --kind fact --scope fuzzy \
 | `compile_memory_hub.py` | Rebuild canonical (supports `--fuzzy-days N`) |
 | `search_events.py` | Search events by scope, kind, keyword |
 | `validate_sources.py` | Validate all NDJSON source files |
+| `prune_fuzzy.py` | Remove expired fuzzy events (TTL-based cleanup) |
+| `dedup_profile.py` | Detect and resolve duplicate profile events |
 
 ---
 
@@ -283,7 +285,9 @@ agent-soul/
 │   ├── validate_sources.py    # Validate NDJSON
 │   ├── search_events.py       # Search events
 │   ├── quick_share.sh         # Fast add+compile+push
-│   └── compile_and_sync.sh    # Full compile cycle
+│   ├── compile_and_sync.sh    # Full compile cycle
+│   ├── prune_fuzzy.py         # TTL cleanup for fuzzy events
+│   └── dedup_profile.py       # Duplicate event detection
 ├── .github/workflows/
 │   ├── auto-compile.yml       # Auto-compile on source push
 │   └── validate-memory-hub.yml
