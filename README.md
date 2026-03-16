@@ -11,9 +11,18 @@ proprietary memory API.
 [![Works with Claude](https://img.shields.io/badge/works%20with-Claude%20Code-blueviolet)](https://claude.ai/claude-code)
 [![Works with any LLM](https://img.shields.io/badge/works%20with-any%20LLM-green)](#)
 [![Agent Skill](https://img.shields.io/badge/agent-friendly-SKILL.md-black)](SKILL.md)
+[![ClawHub](https://img.shields.io/badge/ClawHub-soul--sharing-orange)](https://clawhub.ai/kingcharleslzy-ai/soul-sharing)
 
 ---
 ![agent-soul social preview](assets/social-preview.png)
+
+## Install via ClawHub
+
+```bash
+npx clawhub install soul-sharing
+```
+
+Or clone the template directly (see [Quick Start](#quick-start) below).
 
 ## Start Here
 

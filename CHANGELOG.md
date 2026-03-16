@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v2.1.0] - 2026-03-16
+
+### Added
+
+- Published to **ClawHub** as `soul-sharing` — install via `npx clawhub install soul-sharing`.
+- `scripts/prune_fuzzy.py` — TTL-based cleanup of old fuzzy events.
+- `scripts/dedup_profile.py` — detect and resolve duplicate profile events.
+- ClawHub badge in README.
+
+### Changed
+
+- README updated with ClawHub install section and file tree.
+- Both new scripts use locale-aware timezone (`utc.astimezone()`) instead of hardcoded UTC+8.
+
 ## [v2.0.0] - 2026-03-16
 
 ### Added
